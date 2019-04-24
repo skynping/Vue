@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <label>
+            ID:<input type="text" v-model="id">
+        </label>
+        <label>
+            <!-- keyup键盘抬起事件 -->
+            <!-- 键盘码表：www.cnblogs.com/wuhua1/p/6686237.html , 113对应F2,F2为自定义-->
+            <!-- vue提供以下按键：.enter .tab .delete .esc .space .up .down .left .down -->
+            姓名：<input type="text" v-model="name" @keyup.F2="add">
+        </label>
+        <input type="button" value="添加" @click="add">
+        <label>
+            <input type="text" v-model="keyword" placeholder="查询关键字" v-focus>
+        </label>
+        <hr>
+        <div v-for="item in search(keyword)" :key="item.id">
+            <!-- 过滤器调用的格式 {{name|过滤器名称 | ...}} -->
+            <span>{{item.id}}--{{item.name}}---{{item.date | dateFormat("yyyy-mm-dd")}}</span>
+            <input type="button" value="删除" @click="del(item.id)">
+        </div>
+        <hr>
+    </div>
+    <div id="app2">
+            {{name | dateFormat}}
+    </div>
+    <script>
+        // 全局过滤器,可以有多个
+        // 第一个参数过滤器名称,回调函数第一个参数默认是需要过滤的内容
+        // 字符处理padStart，第一个参数保留多少个字符，第二个参数为不够时以什么字符填充
+        Vue.filter("dateFormat",(data,pattern="")=>{
+            var y = data.getFullYear();
+            var m = (data.getMonth() + 1).toString().padStart(2,"0");
+            var d = data.getDate().toString().padStart(2,"0");
+           
+
+            if(pattern.toLowerCase()=="yyyy-mm-dd"){
+                return `${y}-${m}-${d}`;
+            }else{
+                var H = data.getHours().toString().padStart(2,"0");
+                var M = data.getMinutes().toString().padStart(2,"0");
+                var S = data.getSeconds().toString().padStart(2,"0");
+                return `${y}-${m}-${d}  ${H}:${M}:${S}`;
+            }
+            
+        })
+
+        // 自定义全局按键修饰符
+        Vue.config.keyCodes.F2 = 113;
+
+        // 使用自定义全局指令
+        // 参数1，指令的名称，定义时不需要加v-前缀，使用的时候需要
+        // 参数2,有些特定的指令函数
+        Vue.directive("focus",{
+            bind:(el)=>{
+                /*  el参数是原生的js对象
+
+                */
+            },
+            inserted:(el)=>{
+                el.focus();
+            },
+            updated:(el)=>{
+
+            }
+        })
+
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                name:null,
+                id:null,
+                keyword:"",
+                lists:[
+                    {"name":"赵云","id":1,"date":new Date()},
+                    {"name":"马超","id":2,"date":new Date()}
+                ]
+            },
+            methods:{
+                add(){
+                    this.lists.push({"name":this.name,"id":this.id,"date":new Date()});
+                    this.name = null;
+                    this.id = null;
+                },
+                del(id){
+                    // findIndex会找到对应的索引
+                    var index = this.lists.findIndex((item)=>{
+                        if(item.id == id){
+                            return true;
+                        }
+                    });
+                    this.lists.splice(index,1);
+
+                },
+                search(keyword){
+                    
+                    // 返回新数组
+                    return this.lists.filter(element=>{
+                        // 将符合条件的存入新数组
+                        if(element.name.includes(keyword)){
+                            return element;
+                        }
+                    })
+                }
+            }
+        });
+    
+        var vm2 = new Vue({
+            el:'#app2',
+            data:{
+                name:new Date()
+            },
+            methods:{},
+            filters:{//私有过滤器，当和全局过滤器冲突时，以私有为准
+                dateFormat2:function(data,pattern=""){
+                    var y = data.getFullYear();
+                    var m = data.getMonth() + 1;
+                    var d = data.getDate();
+                
+
+                    if(pattern.toLowerCase()=="yyyy-mm-dd"){
+                        return `${y}-${m}-${d}`;
+                    }else{
+                        var H = data.getHours();
+                        var M = data.getMinutes();
+                        var S = data.getSeconds();
+                        return `${y}-${m}-${d}  ${H}:${M}:${S}`;
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>
