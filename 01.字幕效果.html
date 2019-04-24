@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>字幕效果</title>
+    <script src="./lib/vue.js"></script>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="浪起来" @click="lang" :title="mytitle">
+        <input type="button" value="低调" v-on:click="stop" v-bind:title="mytitle">
+        <!-- 
+            v-cloak: 解决闪烁问题
+            v-text: 默认没有闪烁问题，会替换标签内的内容
+            v-html:可以解析标签
+            v-bind:绑定属性的指令 缩写是 :
+            v-on: 事件绑定机制  缩写是  @
+         -->
+        <div v-cloak>{{ msg }}</div>
+        <div v-text="msg">啦啦啦</div>
+    </div>
+    
+<script>
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            msg:"猥琐发育，别浪~~!  ",
+            intervalId:null,
+            mytitle: "点击！！"
+        },
+        methods:{
+            lang(){
+                if(this.intervalId) return;
+                this.intervalId = setInterval(()=>{
+                    var start = this.msg.substring(0,1);
+                    var end = this.msg.substring(1);
+                    this.msg = end + start;
+                },100)
+            },
+
+            stop(){
+                clearInterval(this.intervalId);
+                this.intervalId = null;
+            }
+        }
+    })    
+</script>
+</body>
+</html>

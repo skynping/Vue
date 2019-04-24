@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.js"></script>
+    <style>
+        .mycolor{
+            color: blue;
+        }
+
+        .thin{
+            font-size: 30px;
+        }
+
+        .fontfamily{
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <p :class="{mycolor:flag,thin:!flag,fontfamily:true}">这是一个普通测试！！！</p>
+    </div>
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                flag:false
+            }
+        })
+    </script>
+</body>
+</html>

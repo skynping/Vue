@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.js"></script>
+    <style>
+        #outer{
+            background: blue;
+            width: 600px;
+            height: 600px;
+        }
+        #inner{
+            background: yellow;
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        .stop 阻止冒泡
+        .prevent 阻止默认行为
+        .self 只有点击当前元素的时候才触发事件处理函数
+        .once 只触发一次
+     -->
+    <div id="app">
+        
+        <!-- <div id="outer" @click="outer">
+            <div id="inner" @click="inner">
+                <button id="btn" @click="btn">点击</button>
+            </div>
+        </div> -->
+        <a href="http://www.baidu.com" @click.prevent="linkclick">百度一下</a>
+        <a href="http://www.baidu.com" @click.prevent.once="linkclick">百度一下</a>
+    </div>
+<script>
+    var vm = new Vue({
+        el:"#app",
+        data:{
+
+        },
+        methods:{
+            btn(){
+                console.log("这是btn事件");
+            },
+            inner(){
+                console.log("这是inner事件");
+            },
+            outer(){
+                console.log("这是outer事件");
+            }
+        }
+    })
+</script>
+</body>
+</html>

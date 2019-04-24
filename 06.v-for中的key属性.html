@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <label>
+            <input type="text" v-model="id" placeholder="id" autocomplete="false" required>
+        </label>
+        <label>
+            <input type="text" v-model="name" placeholder="name" autocomplete="false" required>
+        </label>
+        <input type="button" @click="add" value="添加">
+        <br>
+        <!-- :key 保证了每一个唯一性-->
+        <label v-for="item,index in lists"  :key="item.id">
+            <input type="checkbox">{{item.id}}--{{item.name}}
+            <br>
+        </label>
+    </div>
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                id:null,
+                name:null,
+                lists:[
+                    {id:1,name:"嬴政"},
+                    {id:2,name:"庄周"}
+                ]
+            },
+            methods:{
+                add(){
+                    this.lists.unshift({id:this.id,name:this.name});
+                    this.id = null;
+                    this.name = null;
+                }
+            }
+        })
+    </script>
+</body>
+</html>
