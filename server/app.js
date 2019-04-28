@@ -10,7 +10,7 @@ app.engine("html",require("express-art-template"));
 
 // 配置 body-parser 中间件（插件，专门解析表单post请求数据）
 app.use(bodyParser.urlencoded({extended:false}));
-app.use(bodyParser.json());
+app.use(bodyParser.json()); 
 
 // 把路由容器挂载到app服务中
 app.use(router);
