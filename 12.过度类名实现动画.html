@@ -9,13 +9,14 @@
     <style>
         /* 自定义两组样式，控制transition内部元素 */
         /* 进入前和离开后状态 */
-        /* 必需带v-前缀 */
+        /* 默认必需带v-前缀 */
         .v-enter,
         .v-leave-to{
             opacity: 0;
             transform: translate3d(100px,200px,300px);
         }
         /* 进入后和离开前 */
+        
         .v-enter-active,
         .v-leave-active{
             transition: all 0.5s ease;
@@ -26,6 +27,7 @@
     <div id="app">
         <input type="button" value="反转" @click="flag=!flag">
         <!-- 使用transition元素把需要被动画控制的元素包裹起来 -->
+        <!--  可以加上name属性修改前缀v-  -->
         <transition>
             <h1 v-if="flag">这是一个动画</h1>
         </transition>
