@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.js"></script>
+    <style>
+        /* 自定义两组样式，控制transition内部元素 */
+        /* 进入前和离开后状态 */
+        /* 必需带v-前缀 */
+        .v-enter,
+        .v-leave-to{
+            opacity: 0;
+            transform: translate3d(100px,200px,300px);
+        }
+        /* 进入后和离开前 */
+        .v-enter-active,
+        .v-leave-active{
+            transition: all 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="反转" @click="flag=!flag">
+        <!-- 使用transition元素把需要被动画控制的元素包裹起来 -->
+        <transition>
+            <h1 v-if="flag">这是一个动画</h1>
+        </transition>
+    </div>
+    <script>
+
+        var vm = new Vue({
+            el:"#app",
+            data() {
+                return {
+                    flag:false
+                }
+            },
+            methods: {
+                
+            },
+        })
+    </script>
+</body>
+</html>

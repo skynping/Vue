@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="/public/vue.js"></script>
+    <script src="/public/vue-resource-1.3.4.js"></script>
+</head>
+<body>
+    <div id="app">
+        <label>
+            姓名：<input type="text" placeholder="填写姓名" v-model="name">
+            <input type="button"value="添加" @click="add">
+        </label>
+        <br>
+        <p v-for="item in lists" :key="item.id">
+            <span v-text="item._id"></span>--<span v-text="item.name"></span>---><span v-text="item.date"></span>
+            <a href="" @click.prevent="deleteUser(item._id)">删除</a>
+        </p>
+    </div>
+    <script>
+        // 配置根域名
+        Vue.http.options.root = "http://localhost:3000/";
+        // 全局启用emulateJSON选项
+        Vue.http.options.emulateJSON = true;
+
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                name:null,
+                lists:[]
+            },
+            created(){// 当vm中的data和methods初始化完毕后，会电泳created中的方法
+                this.listUser();
+            },
+            methods:{
+                listUser(){
+                    this.$http.post("users").then(result=>{
+                        this.lists = result.body.users;
+                    })
+                },
+                add(){
+                    this.$http.post("add",{name:this.name}).then(result=>{
+                        if(!result.body.success){
+                            this.listUser();
+                        }else{
+                            console.log("保存失败");
+                        }
+                        this.name = null;
+                    });
+                },
+                deleteUser(id){
+                    this.$http.post("delete",{id:id}).then(result=>{
+                        if(!result.body.success){
+                            this.listUser();
+                        }else{
+                            console.log("删除失败");
+                        }
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>
