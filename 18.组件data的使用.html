@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+       <mycom1></mycom1>
+       <hr>
+       <mycom1></mycom1>
+       <hr>
+       <mycom1></mycom1>
+       <hr>
+    </div>
+    <template id="tem">
+        <div>
+            <input type="button" value="+1" @click="addCount">
+            <h2>{{count}}</h2>
+        </div>
+    </template>
+    <script>
+        Vue.component('mycom1',{
+            template:'#tem',
+            data() {
+                return {
+                    count:1
+                }
+            },
+            methods: {
+                addCount(){
+                    this.count += 1;
+                }
+            },
+        })
+
+        var vm = new Vue({
+            el:"#app",
+            data:{
+
+            },
+            methods:{
+
+            }
+        })
+    </script>
+</body>
+</html>
