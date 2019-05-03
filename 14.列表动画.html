@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.js"></script>
+    <style>
+        li{
+            color: blue;
+            border: 1px dashed #999;
+            margin: 2px;
+            line-height: 35px;
+            background: gray;
+            width: 100%;
+        }
+        /* 设置进入前和离开后的样式 */
+        .v-enter,
+        .v-leave-to{
+            opacity: 0;
+            transform: translateY(80px);
+        }
+        /* 设置进入后和离开前的样式 */
+        .v-enter-active,
+        .v-leave-active{
+            transition: 0.6s;
+        }
+
+        /* 设置移动的样式 */
+        /* 固定写法 */
+        .v-move{
+            transition: all 0.6s ease;
+        }
+        .v-leave-active{
+            position: absolute;
+        }
+
+        li:hover{
+            background-color: aqua;
+            transition: all 0.4s ease;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="uid" placeholder="填入id">
+        <input type="text" v-model="uname" placeholder="填入姓名">
+        <input type="button" value="添加" @click="add">
+        <br>
+            <!-- 实现列表过度的时候，如果需要过度的元素，是通过v-for循环渲染出来的，不能使用
+            transition包裹，需要使用transition-group -->
+            <!-- appear实现列表入场效果 -->
+            <transition-group appear tag="ul">
+                <li v-for="item,index in lists" :key="item.id" @click="del(index)">
+                        {{item.id}} --- {{item.name}}
+                </li>
+            </transition-group>
+
+    </div>
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                uid:null,
+                uname:null,
+                lists:[
+                    {id:1,name:"张飞"},
+                    {id:2,name:"刘备"},
+                    {id:3,name:"关二爷"}
+                ]
+            },
+            methods:{
+                add(){
+                    this.lists.push({id:this.uid,name:this.uname});
+                    this.uid = this.uname = null;
+                },
+                del(index){
+                    this.lists.splice(index,1);
+                }
+            }
+        })
+    </script>
+</body>
+</html>
