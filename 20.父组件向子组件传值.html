@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 父组件向子组件传递数据 -->
+        <com1 v-bind:parentmsg="msg"></com1>
+        <!-- 父组件向子组件传递方法 -->
+        <com2 v-on:parentshow="show"></com2>
+    </div>
+    <template id="tem2">
+        <div>
+            <input type="button" value="点击" @click="myclick">
+        </div>
+    </template>
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                msg:"这是父组件的数据",
+                sonmsg:null
+            },
+            methods: {
+                show(datas){
+                    console.log("这是父组件" + datas);
+                    this.sonmsg = datas;
+                    console.log(this.sonmsg);
+                }
+            },
+            components:{
+                com1:{
+                    template:'<h1>这是子组件---{{ parentmsg }}</h1>',
+                    // 组件中的所有props中的数据，都是通过父组件传递给子组件的
+                    // 子组件不能直接用父组件的数据，只能读不能写
+                    props:['parentmsg'],
+                },
+                com2:{
+                    template:'#tem2',
+                    data() {
+                        return {
+                            msg:"这是子组件数据"
+                        }
+                    },
+                    methods: {
+                        myclick(){
+                            // 调用父组件方法，emit原意触发、发射
+                            this.$emit('parentshow',this.msg);
+                        }
+                    },
+                }
+            }
+        })
+    </script>
+</body>
+</html>
