@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.js"></script>
+    <script src="./lib/vue-router.js"></script>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+
+        .header{
+            background: orangered;
+            height: 80px;
+        }
+
+        #container{
+            display: flex;
+            height: 600px;
+        }
+
+        .left{
+            background: green;
+            flex:2;
+        }
+
+        .main{
+            background: blue;
+            flex: 8;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+
+        <router-view name="default"></router-view>
+        <div id="container">
+            <router-view name="left"></router-view>
+            <router-view name="main"></router-view>
+        </div>
+    </div>
+    <script>
+
+        var header = {
+            template:"<h1 class='header'>这是header组件</h1>"
+        }
+
+        var leftBox = {
+            template:"<h1 class='left'>这是leftBox组件</h1>"
+        }
+
+        var mainBox = {
+            template:"<h1 class='main'>这是mainBox组件</h1>"
+        }
+
+        var router = new VueRouter({
+            routes:[
+                {path:'/',components:{
+                    'default':header,
+                    'left':leftBox,
+                    'main':mainBox
+                }}
+            ]
+        })
+
+        var vm = new Vue({
+            el:"#app",
+            data() {
+                return {
+                    
+                }
+            },
+            methods: {
+                
+            },
+            router,
+            watch: {// 监听一些事件
+                
+            },
+            computed: {
+                
+            },
+        })
+    </script>
+</body>
+</html>
